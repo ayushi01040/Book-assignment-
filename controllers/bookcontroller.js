@@ -1,4 +1,4 @@
-const Book = require("../models/book"); // Import your Book model
+const Book = require("../models/Book"); // Import your Book model
 
 async function addNewBook(req, res) {
   try {

@@ -1,0 +1,212 @@
+// // async function addUser(req, res) {
+// //   try {
+// //     const { password, confirmPassword } = req.body;
+// //     // Check if passwords match
+// //     if (password !== confirmPassword) {
+// //       return res.render("usersignup", { error: "Passwords do not match" });
+// //     }
+// //     let user = new User(req.body);
+// //     user.userType = 2;
+// //     await user.save();
+// //     res.render("home");
+// //   } catch (err) {
+// //     console.error("Something went wrong in usercontroller", err);
+// //   }
+// // }
+// const addUser = async (req, res) => {
+//   try {
+//     let user = new User(req.body);
+//     user.userType = 2; // Set user type
+//     await user.save(); // Save user to the database
+//     console.log("User created:", user); // Log the created user
+//     res.render("home"); // Redirect to login page after creating user
+//   } catch (err) {
+//     console.error("Something went wrong in usercontroller", err);
+//     // res.render("register", { error: "Registration failed." }); // Render registration with error
+//   }
+// };
+// async function loginUser(req, res) {
+//   try {
+//     let user = await User.findOne({});
+//     // if (user.userType == 1) {
+//     //   res.render("adminlogin");
+//     // } else {
+//     const { email, password } = req.body;
+//     if (email == user.email && password == user.password) {
+//       // res.send("<h1>hello you are logged in</h1>");
+//       res.render("welcome");
+//     }
+//   } catch (error) {
+//     console.error("Something went wrong while logging", error);
+//   }
+// }
+// // const User = require("../models/User");
+// // async function loginUser(req, res) {
+// //   try {
+// //     const { email, password } = req.body; // Extract email and password
+// //     console.log("Logging in user with email:", email); // Log the email
+// //     const user = await User.findOne({ email }); // Find user by email
+// //     console.log("Found user:", user); // Log the user object
+// //     if (!user) {
+// //       return res.status(401).send("User not found"); // User not found
+// //     }
+// //     // Ensure the comparePassword method is defined
+// //     if (typeof user.comparePassword !== "function") {
+// //       console.error("comparePassword method is not defined on user.");
+// //       return res.status(500).send("Internal server error"); // Handle this case
+// //     }
+// //     const isMatch = await user.comparePassword(password); // Compare password
+// //     console.log("Password match:", isMatch); // Log the password comparison result
+
+// //     if (!isMatch) {
+// //       return res.status(401).send("Invalid credentials"); // Invalid password
+// //     }
+
+// //     req.session.userId = user._id; // Store user ID in session
+// //     res.redirect("/home"); // Redirect after successful login
+// //   } catch (error) {
+// //     console.error("Something went wrong while logging:", error);
+// //     res.status(500).send("Internal Server Error"); // Handle general errors
+// //   }
+// // }
+
+// module.exports = { loginUser };
+
+// const express = require("express");
+// const connection = require("./connection");
+// // const book = require("./routes/book");
+// const user = require("./routes/user");
+// const app = express();
+
+// connection();
+// app.use(express.json());
+// // app.use("/book", book);
+// // app.use("/user", user);
+// app.use(user);
+// app.listen(3000, (err) => {
+//   if (err) {
+//     console.log("Error starting server", err);
+//   } else {
+//     console.log("Server started at http://localhost:3000");
+//   }
+// });
+
+
+// const express = require("express");
+// const bookcontroller = require("../controllers/bookcontroller");
+
+// const router = express.Router();
+// router.use(express.urlencoded({ extended: false }));
+
+// // router.get("/", (req, res) => {
+// //   // res.render("home");
+// //   res.end(<h1>Welcome to the home Page</h1>);
+// // });
+
+// // Adding a book
+// router.post("/add/book", (req, res) => {
+//   bookcontroller.addBook(req, res);
+// });
+
+// module.exports = router;
+
+const addaBook = async (req, res) => {
+  try {
+    // Extracting and trimming fields from the request body
+    const {
+      bookTitle,
+      bookAuthor,
+      publisherName,
+      language,
+      edition,
+      isbn,
+      origin,
+      noOfPages,
+      pricePerUnit
+    } = req.body;
+
+    // Trim values to remove any leading or trailing spaces
+    const trimmedBookTitle = bookTitle?.trim();
+    const trimmedBookAuthor = bookAuthor?.trim();
+    const trimmedPublisherName = publisherName?.trim();
+    const trimmedLanguage = language?.trim();
+    const trimmedEdition = edition?.toString().trim();
+    const trimmedIsbn = isbn?.trim();
+    const trimmedOrigin = origin?.trim();
+    const trimmedNoOfPages = noOfPages?.toString().trim();
+    const trimmedPricePerUnit = pricePerUnit?.toString().trim();
+
+    // Validating that all required fields are present
+    if (
+      !trimmedBookTitle ||
+      !trimmedBookAuthor ||
+      !trimmedPublisherName ||
+      !trimmedLanguage ||
+      !trimmedEdition ||
+      !trimmedIsbn ||
+      !trimmedOrigin ||
+      !trimmedNoOfPages ||
+      !trimmedPricePerUnit
+    ) {
+      return res.status(400).json({ message: "All fields are required" });
+    }
+
+    // Create a new book object
+    const newBook = new Book({
+      bookTitle: trimmedBookTitle,
+      bookAuthor: trimmedBookAuthor,
+      publisherName: trimmedPublisherName,
+      language: trimmedLanguage,
+      edition: trimmedEdition,
+      isbn: trimmedIsbn,
+      origin: trimmedOrigin,
+      noOfPages: trimmedNoOfPages,
+      pricePerUnit: trimmedPricePerUnit
+    });
+
+    // Save the book to the database
+    await newBook.save();
+
+    // Respond with success
+    res.status(201).json({ message: "Book added successfully", book: newBook });
+  } catch (error) {
+    // Log the error for debugging purposes
+    console.error("Error in addNewBook:", error);
+
+    // If it's a validation error, send a 400 status
+    if (error.name === "ValidationError") {
+      return res
+        .status(400)
+        .json({ message: "Validation Error", error: error.message });
+    }
+
+    // Respond with a generic server error
+    res
+      .status(500)
+      .json({ message: "Something went wrong", error: error.message });
+  }
+};
+// const express = require("express");
+// const router = express.Router();
+// const bookcontroller = require("../controllers/bookController"); // Assuming this is your controller
+
+// // Define the route for adding a book
+// router.post("/add/book", (req, res) => {
+//   bookcontroller.addBook(req, res);
+// });
+
+// router.get("/add/new/book", (req, res) => {
+//   res.render("addBooks");
+//   // bookcontroller.addNewBook(req, res);
+// });
+
+// // router.get("/add/new/book", (req, res) => {
+// //   res.render("addBook");
+// // });
+// // Define the route for retrieving all books
+// router.get("/books", (req, res) => {
+//   bookcontroller.getBooks(req, res);
+// });
+
+// // Export the router
+// module.exports = router;

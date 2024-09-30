@@ -1,0 +1,52 @@
+<%- include('./base/header.ejs') %>
+
+<div class="container-fluid">
+    <div class="row no-gutter">
+        <!-- The content half -->
+        <div class="col-md-5">
+            <div class="login d-flex align-items-center py-5">
+                <!-- Demo content-->
+                <div class="container" style="border: 2px solid white;;">
+                    <div class="row">
+                        <div class="col-lg-10 col-xl-7 text-center mx-auto">
+                            <h3 class="display-4" ><strong>Login</strong></h3>
+                            <p class="text-white mb-4">Enter your email & password to visit the page...</p>
+                            <form action="/login" method="post">
+                                <div class="form-group mb-3 my-3">
+                                    <input id="inputEmail" type="email" name="email" placeholder="Email address"
+                                        required autofocus class="form-control rounded-pill border-0 shadow-sm px-4">
+                                </div>
+                                <div class="form-group mb-3 my-3">
+                                    <input id="inputPassword" type="password" name="password" placeholder="Password"
+                                        required class="form-control rounded-pill border-0 shadow-sm px-4">
+                                </div>
+                                <div class="custom-control custom-checkbox mb-3">
+                                    <input id="customCheck1" type="checkbox" class="custom-control-input">
+                                    <label for="customCheck1" class="custom-control-label text" id="remember">
+                                        Remember password
+                                    </label>
+                                </div>
+                                <button type="submit" class="btn btn-primary" ;>Login</button>
+                                <div class="text-center d-flex justify-content-between mt-4">
+                                    <p>Don't have an account? <a href="/user/signup">Sign Up</a></p>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div><!-- End -->
+            </div>
+        </div><!-- End -->
+        
+        <!-- Vertical Line -->
+        <div class="col-md-1 d-flex justify-content-center">
+            <div class="vertical-line"></div>
+        </div>
+
+        <!-- The image half -->
+        <div class="col-md-6 align-items-center bg-image">
+            <img src="/images/logo.jpg" alt="">
+        </div>
+    </div>
+</div>
+
+<%- include('./base/footer.ejs') %>

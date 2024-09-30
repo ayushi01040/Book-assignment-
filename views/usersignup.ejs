@@ -1,0 +1,89 @@
+<%- include('./base/header.ejs') %>
+
+    <section class="vh-100 gradient-custom">
+        <div class="container py-5 h-100">
+            <div class="row justify-content-center align-items-center h-100">
+                <div class="col-12 col-lg-9 col-xl-7">
+                    <div class="container p-4 p-md-5">
+                        <h1 class="mb-4 pb-2 pb-md-0 mb-md-5 text-center text-white">Create Your Account</h1>
+                        <form action="/add/user" method="post">
+                            <div class="row">
+                                <div class="col-md-6 mb-4">
+                                    <div data-mdb-input-init class="form-outline">
+                                        <label for="firstName" class="form-label text-white">First Name</label>
+                                        <input type="text" class="form-control form-control-lg" id="firstName"
+                                            name="firstName">
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-4">
+                                    <div data-mdb-input-init class="form-outline">
+                                        <label for="lastName" class="text-white form-label">Last Name</label>
+                                        <input type="text" class="form-control form-control-lg" id="lastName"
+                                            name="lastName">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col mb-4 d-flex align-items-center">
+                                    <div data-mdb-input-init class="form-outline datepicker w-100">
+                                        <label for="country" class="form-label text-white">Country</label>
+                                        <input type="text" class="form-control form-control-lg" id="country"
+                                            name="country">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-4 pb-2">
+                                    <div data-mdb-input-init class="form-outline">
+                                        <label for="mobileNo" class="form-label text-white">Mobile Number</label>
+                                        <input type="text" class="form-control form-control-lg" id="mobileNo"
+                                            name="mobileNo">
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-4 pb-2">
+                                    <div data-mdb-input-init class="form-outline">
+                                        <label for="email" class="form-label text-white">Email</label>
+                                        <input type="email" class="form-control form-control-lg" id="email"
+                                            name="email">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-4">
+                                    <div data-mdb-input-init class="form-outline">
+                                        <label for="password" class="form-label text-white">Password</label>
+                                        <input type="password" class="form-control form-control-lg" id="password"
+                                            name="password">
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-4">
+                                    <div data-mdb-input-init class="form-outline">
+                                        <label for="confirmPassword" class="form-label text-white">Confirm
+                                            Password</label>
+                                        <input type="password" class="form-control form-control-lg" id="confirmPassword"
+                                            name="confirmPassword">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="pt-2 d-flex justify-content-center">
+                                <button data-mdb-ripple-init class="btn btn-primary btn-lg">Sign Up</button>
+                            </div>
+
+                            <div class="text-center d-flex justify-content-between mt-4">
+                                <p class="text-white">Already have an account? <a href="/"
+                                        class="text-white">Login</a></p>
+                            </div>
+                            <div id="error-message" class="text-danger mb-3">
+                                <% if (typeof error !=='undefined' ) { %>
+                                    <%= error %>
+                                        <% } %>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <%- include('./base/footer.ejs') %>

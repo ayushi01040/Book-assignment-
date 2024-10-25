@@ -9,7 +9,7 @@ router.post("/add/book", (req, res) => {
 
 // GET route to render the add book page
 router.get("/addbooks", (req, res) => {
-  res.render("addBooks"); // Use addBook or addBooks based on the actual file name
+  res.render("addbooks.ejs"); // Use addBook or addBooks based on the actual file name
 });
 
 // GET route to retrieve all books
